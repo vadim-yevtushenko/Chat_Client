@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class ChatActivity extends AppCompatActivity {
     private ListView lvOnline;
     private EditText etMessage;
     private Button bSend;
+    private ProgressBar pbConnect;
     private Controller controller;
 
 
@@ -104,6 +106,7 @@ public class ChatActivity extends AppCompatActivity {
         lvOnline = findViewById(R.id.lvOnline);
         etMessage = findViewById(R.id.etMessage);
         bSend = findViewById(R.id.bSend);
+        pbConnect = findViewById(R.id.pbConnect);
 
     }
 
@@ -117,6 +120,10 @@ public class ChatActivity extends AppCompatActivity {
         fillClientsList();
         createListClients();
 
+    }
+
+    public void setInvisibleProgressBar(){
+        pbConnect.setVisibility(View.INVISIBLE);
     }
 
     public String getIp() {

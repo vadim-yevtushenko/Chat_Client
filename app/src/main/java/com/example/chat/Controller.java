@@ -4,7 +4,9 @@ import android.content.Intent;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -38,9 +40,10 @@ public class Controller {
 
             try {
 
-//                socket = new Socket("192.168.1.100", 6789);
-                socket = new Socket(ip, Integer.parseInt(port));
-
+                socket = new Socket();
+                SocketAddress socketAddress = new InetSocketAddress(ip, Integer.parseInt(port));
+                socket.connect(socketAddress, 10000);
+                chatActivity.setInvisibleProgressBar();
                 printWriter = new PrintWriter(socket.getOutputStream());
                 scannerIn = new Scanner(socket.getInputStream());
 
@@ -72,10 +75,12 @@ public class Controller {
     }
 
     public void sendMessage(String message) {
-        new Thread(() -> {
-            printWriter.println(message);
-            printWriter.flush();
-        }).start();
+        if (socket.isConnected()) {
+            new Thread(() -> {
+                printWriter.println(message);
+                printWriter.flush();
+            }).start();
+        }
 
     }
 
